@@ -3,10 +3,6 @@ FROM php:7.1-fpm-alpine
 RUN set -xe \
   && apk add --no-cache py-setuptools git wget bash py-setuptools zlib-dev libpng-dev freetype-dev libjpeg-turbo-dev libmcrypt-dev libmemcached-dev icu-dev libxml2-dev \
   && apk add --no-cache libressl-dev cyrus-sasl-dev --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ rabbitmq-c-dev gnu-libiconv --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
-  && apk add --update graphviz \
-  && apk add --update imagemagick \
-  && apk add --update --no-cache autoconf g++ imagemagick-dev libtool make pcre-dev \
-  && printf "\n" | pecl install imagick \
   && mkdir -p /usr/src/php/ext \
   && wget https://pecl.php.net/get/memcached \
   && tar -xf memcached \
@@ -34,7 +30,6 @@ RUN set -xe \
   && mv mcrypt-* /usr/src/php/ext/mcrypt \
   && git clone --recursive --depth=1 https://github.com/kjdev/php-ext-snappy.git \
   && mv php-ext-snappy /usr/src/php/ext/snappy \
-  && docker-php-ext-enable imagick \
   && docker-php-ext-install pdo_mysql opcache zip pcntl mcrypt iconv soap intl xml amqp igbinary redis snappy apcu \
   && docker-php-ext-configure memcached --enable-memcached-igbinary --disable-memcached-sasl \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -71,8 +66,7 @@ RUN cp /opt/newrelic/agent/x64/newrelic-20160303.so /usr/local/lib/php/extension
 	&& echo 'newrelic.feature_flag=laravel_queue' >> /usr/local/etc/php/conf.d/newrelic.ini \
 	&& rm -fr /opt/newrelic \
 	&& rm -fr /usr/src/php/ext \
-	&& apk del git py-setuptools wget bash \
-	&& apk del autoconf g++ libtool make pcre-dev
+	&& apk del git py-setuptools wget bash
 
 RUN echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/settings.ini \
   && sed -i "s/access.log =.*/access.log = \/proc\/self\/fd\/1/" /usr/local/etc/php-fpm.d/docker.conf
