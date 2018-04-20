@@ -1,3 +1,3 @@
-FROM arielkung/fpm-alpine
+FROM dftlatam/docker-fpm-alpine
 
 ONBUILD COPY . /var/www/html
