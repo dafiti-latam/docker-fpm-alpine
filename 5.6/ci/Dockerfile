@@ -1,4 +1,4 @@
-FROM arielkung/fpm-alpine:5.6
+FROM dftlatam/docker-fpm-alpine:5.6
 
 RUN set -xe \
   && apk add --no-cache wget git \
