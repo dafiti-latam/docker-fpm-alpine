@@ -50,7 +50,7 @@ RUN pip install newrelic-plugin-agent \
 	&& mkdir -p /var/log/newrelic \
 	&& mkdir -p /var/run/newrelic
 
-RUN cp /opt/newrelic/agent/x64/newrelic-20151012.so /usr/local/lib/php/extensions/no-debug-non-zts-20151012/newrelic.so \
+RUN cp /opt/newrelic/agent/x64/newrelic-20170718.so /usr/local/lib/php/extensions/no-debug-non-zts-20170718/newrelic.so \
         && echo 'extension = "newrelic.so"' > /usr/local/etc/php/conf.d/newrelic.ini \
 	&& echo '[newrelic]' >> /usr/local/etc/php/conf.d/newrelic.ini \
 	&& echo 'newrelic.enabled = true' >> /usr/local/etc/php/conf.d/newrelic.ini \
@@ -58,7 +58,7 @@ RUN cp /opt/newrelic/agent/x64/newrelic-20151012.so /usr/local/lib/php/extension
 	&& echo 'newrelic.appname = ${NEWRELIC_APPNAME}' >> /usr/local/etc/php/conf.d/newrelic.ini \
 	&& echo 'newrelic.feature_flag=laravel_queue' >> /usr/local/etc/php/conf.d/newrelic.ini \
 	&& rm -fr /opt/newrelic \
-  && rm -fr /usr/src/php/ext \
+	&& rm -fr /usr/src/php/ext \
 	&& apk del git py-setuptools wget bash 
 
 RUN echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/settings.ini \
