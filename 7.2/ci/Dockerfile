@@ -10,6 +10,7 @@ RUN set -xe \
   && wget https://getcomposer.org/composer.phar \
   && mv composer.phar /usr/local/bin/composer \
   && chmod +x /usr/local/bin/composer \
-  && apk del wget \
-  && rm -fr /usr/src/php/ext
+  && apk del wget
+#  && apk del wget \
+#  && rm -fr /usr/src/php/ext
   
