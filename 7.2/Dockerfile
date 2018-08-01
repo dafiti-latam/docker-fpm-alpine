@@ -59,7 +59,7 @@ RUN cp /opt/newrelic/agent/x64/newrelic-20170718.so /usr/local/lib/php/extension
 	&& echo 'newrelic.appname = ${NEWRELIC_APPNAME}' >> /usr/local/etc/php/conf.d/newrelic.ini \
 	&& echo 'newrelic.feature_flag=laravel_queue' >> /usr/local/etc/php/conf.d/newrelic.ini \
 	&& rm -fr /opt/newrelic \
-	&& rm -fr /usr/src/php/ext \
+#	&& rm -fr /usr/src/php/ext \
 	&& apk del git py-setuptools wget bash 
 
 RUN echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/settings.ini \
