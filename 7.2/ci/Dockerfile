@@ -21,8 +21,21 @@ RUN set -xe \
   icu-dev \
   autoconf automake make gcc g++
 
-RUN docker-php-ext-configure bcmath && \
-  
+RUN docker-php-ext-configure bcmath
+
+RUN docker-php-ext-install bcmath
+
+# AMQP
+RUN echo http://dl-cdn.alpinelinux.org/alpine/v3.6/main >> /etc/apk/repositories
+RUN apk update
+RUN apk --no-cache --update add rabbitmq-c-dev
+RUN pecl install amqp
+RUN docker-php-ext-enable amqp
+# Cleanup
+RUN rm -rf /tmp/* && rm -rf /var/cache/apk/*
+
+
+
 #borrar
 #  && docker-php-ext-configure bcmath --enable-bcmath \
 #  && docker-php-ext-install gd memcached bcmath
