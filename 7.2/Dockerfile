@@ -30,7 +30,7 @@ RUN set -xe \
   && docker-php-ext-install pdo_mysql opcache zip pcntl iconv soap intl xml amqp igbinary redis snappy \
   && docker-php-ext-configure memcached --enable-memcached-igbinary --disable-memcached-sasl \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-configure bcmath \
+  && docker-php-ext-configure bcmath --enable-bcmath \
   && docker-php-ext-install gd memcached bcmath
 
 RUN wget https://bootstrap.pypa.io/get-pip.py \
