@@ -30,8 +30,7 @@ RUN set -xe \
   && docker-php-ext-install pdo_mysql opcache zip pcntl iconv soap intl xml amqp igbinary redis snappy \
   && docker-php-ext-configure memcached --enable-memcached-igbinary --disable-memcached-sasl \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-configure bcmath --enable-bcmath \
-  && docker-php-ext-install gd memcached bcmath
+  && docker-php-ext-install gd memcached 
 
 RUN wget https://bootstrap.pypa.io/get-pip.py \
 	&& python get-pip.py --no-setuptools --no-wheel \
@@ -59,7 +58,7 @@ RUN cp /opt/newrelic/agent/x64/newrelic-20170718.so /usr/local/lib/php/extension
 	&& echo 'newrelic.appname = ${NEWRELIC_APPNAME}' >> /usr/local/etc/php/conf.d/newrelic.ini \
 	&& echo 'newrelic.feature_flag=laravel_queue' >> /usr/local/etc/php/conf.d/newrelic.ini \
 	&& rm -fr /opt/newrelic \
-#	&& rm -fr /usr/src/php/ext \
+	&& rm -fr /usr/src/php/ext \
 	&& apk del git py-setuptools wget bash 
 
 RUN echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/settings.ini \
