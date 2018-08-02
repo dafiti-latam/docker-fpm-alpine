@@ -10,7 +10,9 @@ RUN set -xe \
   && wget https://getcomposer.org/composer.phar \
   && mv composer.phar /usr/local/bin/composer \
   && chmod +x /usr/local/bin/composer \
-  && apk del wget
-#  && apk del wget \
+  && apk del wget \
+#borrar
+  && docker-php-ext-configure bcmath --enable-bcmath \
+  && docker-php-ext-install gd memcached bcmath
+#borrar
 #  && rm -fr /usr/src/php/ext
-  
