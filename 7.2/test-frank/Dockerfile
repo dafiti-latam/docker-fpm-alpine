@@ -1,4 +1,4 @@
-FROM dftlatam/docker-fpm-alpine:7.2-test-frank
+FROM php:7.2-fpm-alpine
 
 RUN set -xe \
   && apk update \
