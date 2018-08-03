@@ -51,6 +51,7 @@ RUN apk --no-cache --update add \
   gettext-dev \
   icu-dev \
   autoconf automake make gcc g++
+
 # Configure
 RUN docker-php-ext-configure bcmath && \
     docker-php-ext-configure bz2 && \
@@ -60,6 +61,7 @@ RUN docker-php-ext-configure bcmath && \
     docker-php-ext-configure mysqli && \
     docker-php-ext-configure pdo_mysql && \
     docker-php-ext-configure sockets
+
 # Build + Install
 RUN docker-php-ext-install bcmath \
     bz2 \
