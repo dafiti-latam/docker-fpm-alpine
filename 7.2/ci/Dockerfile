@@ -11,7 +11,7 @@ RUN set -xe \
   && wget https://getcomposer.org/composer.phar \
   && mv composer.phar /usr/local/bin/composer \
   && chmod +x /usr/local/bin/composer \
-  && apk del wget \
+  && apk del wget
   
 RUN set -xe \
   && apk --no-cache --update add \
