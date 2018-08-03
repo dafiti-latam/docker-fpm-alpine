@@ -9,6 +9,8 @@ RUN docker-php-ext-enable amqp
 # Cleanup
 RUN rm -rf /tmp/* && rm -rf /var/cache/apk/*
 
+ONBUILD COPY . /var/www/html
+
 #borrar
 #  && docker-php-ext-configure bcmath --enable-bcmath \
 #  && docker-php-ext-install gd memcached bcmath
