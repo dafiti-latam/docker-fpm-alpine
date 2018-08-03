@@ -42,8 +42,7 @@ RUN set -xe \
   && docker-php-ext-install xdebug \
   && wget https://getcomposer.org/composer.phar \
   && mv composer.phar /usr/local/bin/composer \
-  && chmod +x /usr/local/bin/composer \
-  && apk del wget
+  && chmod +x /usr/local/bin/composer
 
 RUN apk --no-cache --update add \
   bzip2-dev \
