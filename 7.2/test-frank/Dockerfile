@@ -31,7 +31,20 @@ RUN set -xe \
   && docker-php-ext-configure memcached --enable-memcached-igbinary --disable-memcached-sasl \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
   && docker-php-ext-install gd memcached
-  
+
+RUN set -xe \
+  && apk update \
+  && apk add --no-cache wget git \
+  && wget https://pecl.php.net/get/xdebug \
+  && tar -xf xdebug \
+  && mkdir -p /usr/src/php/ext \
+  && mv xdebug-* /usr/src/php/ext/xdebug \
+  && docker-php-ext-install xdebug \
+  && wget https://getcomposer.org/composer.phar \
+  && mv composer.phar /usr/local/bin/composer \
+  && chmod +x /usr/local/bin/composer \
+  && apk del wget
+
 RUN apk --no-cache --update add \
   bzip2-dev \
   libpng-dev libwebp-dev libjpeg freetype-dev \
