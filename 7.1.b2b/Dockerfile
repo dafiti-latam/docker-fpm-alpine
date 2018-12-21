@@ -37,6 +37,17 @@ RUN set -xe \
   && echo 'extension = "apcu.so"' > /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
   && echo 'apc.shm_size = 256M' >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
+# Install APCu-BC extension
+ADD https://pecl.php.net/get/apcu_bc-1.0.3.tgz /tmp/apcu_bc.tar.gz
+RUN mkdir -p /usr/src/php/ext/apcu-bc && \
+    tar xf /tmp/apcu_bc.tar.gz -C /usr/src/php/ext/apcu-bc --strip-components=1 && \
+    docker-php-ext-configure apcu-bc && \
+    docker-php-ext-install apcu-bc && \
+    rm /tmp/apcu_bc.tar.gz
+# Load APCU.ini before APC.ini
+RUN rm /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini && \
+    echo extension=apcu.so > /usr/local/etc/php/conf.d/20-php-ext-apcu.ini
+    
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 RUN wget https://bootstrap.pypa.io/get-pip.py \
