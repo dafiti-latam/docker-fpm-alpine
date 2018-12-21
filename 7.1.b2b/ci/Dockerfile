@@ -1,4 +1,4 @@
-FROM dftlatam/docker-fpm-alpine:7.1.b2b
+FROM dftlatam/docker-fpm-alpine:7.1-b2b
 
 RUN set -xe \
   && apk add --no-cache wget git \
