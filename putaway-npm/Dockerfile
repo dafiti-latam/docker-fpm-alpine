@@ -11,7 +11,7 @@ RUN set -xe \
 	&& mv composer.phar /usr/local/bin/composer \
 	&& chmod +x /usr/local/bin/composer \
 	&& apk del wget \
-  && rm -fr /usr/src/php/ext
+        && rm -fr /usr/src/php/ext
 
 RUN apk update && apk add nodejs \
   && apk add npm
