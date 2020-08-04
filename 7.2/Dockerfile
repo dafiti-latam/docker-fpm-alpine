@@ -1,9 +1,9 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.2-fpm-alpine3.7
 
 RUN set -xe \
 	&& apk update \
 	&& apk add --no-cache py-setuptools git wget bash py-setuptools zlib-dev libpng-dev freetype-dev libjpeg-turbo-dev libmemcached-dev icu-dev libxml2-dev \
-	&& apk add --no-cache libressl-dev cyrus-sasl-dev --repository http://dl-3.alpinelinux.org/alpine/edge/main/ rabbitmq-c-dev --repository   http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+	&& apk add --no-cache libressl-dev cyrus-sasl-dev --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ rabbitmq-c-dev --repository   http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
 	&& mkdir -p /usr/src/php/ext \
 	&& wget https://pecl.php.net/get/memcached \
 	&& tar -xf memcached \
@@ -103,8 +103,15 @@ RUN cp /opt/newrelic/agent/x64/newrelic-20170718.so /usr/local/lib/php/extension
 	&& rm -fr /usr/src/php/ext \
 	&& apk del git py-setuptools wget bash 
 
-RUN echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/settings.ini \
-	&& sed -i "s/access.log =.*/access.log = \/proc\/self\/fd\/1/" /usr/local/etc/php-fpm.d/docker.conf
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
+    && echo 'memory_limit = 4G' > /usr/local/etc/php/conf.d/settings.ini \
+	&& sed -i "s/;\{0,1\}pm.max_children =.*/pm.max_children = 50/g" /usr/local/etc/php-fpm.d/www.conf   \
+	&& sed -i "s/;\{0,1\}pm.start_servers =.*/pm.start_servers = 2/g" /usr/local/etc/php-fpm.d/www.conf   \
+	&& sed -i "s/;\{0,1\}pm.min_spare_servers =.*/pm.min_spare_servers = 2/g" /usr/local/etc/php-fpm.d/www.conf   \
+	&& sed -i "s/;\{0,1\}pm.max_spare_servers =.*/pm.max_spare_servers = 8/g" /usr/local/etc/php-fpm.d/www.conf   \
+	&& sed -i "s/;\{0,1\}pm.max_requests =.*/pm.max_requests = 500/g" /usr/local/etc/php-fpm.d/www.conf   \
+	&& sed -i 's/max_execution_time =.*/max_execution_time = 600/g' /usr/local/etc/php/php.ini \
+    && sed -i "s/access.log =.*/access.log = \/proc\/self\/fd\/1/" /usr/local/etc/php-fpm.d/docker.conf
 
 # AMQP
 RUN echo http://dl-cdn.alpinelinux.org/alpine/v3.6/main >> /etc/apk/repositories
